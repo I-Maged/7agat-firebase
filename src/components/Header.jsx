@@ -7,7 +7,8 @@ import { IoMdMenu, IoMdClose } from 'react-icons/io'
 import { FiLogIn } from 'react-icons/fi'
 import { FaUserPlus } from 'react-icons/fa'
 import { TbLogout2 } from 'react-icons/tb'
-import { MdAddCircleOutline } from 'react-icons/md'
+import { MdAddCircleOutline, MdProductionQuantityLimits } from 'react-icons/md'
+import { GiClothes } from 'react-icons/gi'
 
 import '../assets/SideBar.css'
 
@@ -47,6 +48,18 @@ const Header = () => {
             </div>
           </div>
           <nav className={'nav' && navIsOpen ? 'nav--open' : null}>
+            <nav
+              className='nav__item'
+              onClick={() => setNavIsOpen(false)}
+            >
+              <Link to='/products/allProducts'>
+                <MdProductionQuantityLimits
+                  color='white'
+                  size={40}
+                />
+              </Link>
+              <span className='nav__item-text'>جميع المنتجات</span>
+            </nav>
             {user ? (
               <>
                 <nav
@@ -60,6 +73,18 @@ const Header = () => {
                     />
                   </Link>
                   <span className='nav__item-text'>إضافة منتج</span>
+                </nav>
+                <nav
+                  className='nav__item'
+                  onClick={() => setNavIsOpen(false)}
+                >
+                  <Link to={`/user/${user.uid}`}>
+                    <GiClothes
+                      color='white'
+                      size={40}
+                    />
+                  </Link>
+                  <span className='nav__item-text'>منتجاتي</span>
                 </nav>
                 <nav
                   className='nav__item'

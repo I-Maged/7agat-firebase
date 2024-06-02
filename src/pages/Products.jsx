@@ -1,8 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
 import { getAllProducts } from '../features/product/productSlice'
 
-import { toast } from 'react-toastify'
 import { useState, useEffect } from 'react'
 import ProductCard from '../components/ProductCard'
 import Spinner from '../components/Spinner'
@@ -11,11 +9,10 @@ const Products = () => {
   const { products } = useSelector((state) => state.products)
   const { isLoading } = useSelector((state) => state.products)
 
-  const params = useParams()
   const dispatch = useDispatch()
 
-  const [categoryName, setCategoryName] = useState(params.categoryName)
-  const [offerType, setOfferType] = useState(params.offerType)
+  const [categoryName, setCategoryName] = useState('all')
+  const [offerType, setOfferType] = useState('all')
   const [filteredProducts, setFilteredProducts] = useState([])
 
   useEffect(() => {
@@ -30,34 +27,19 @@ const Products = () => {
       } else if (categoryName == 'all') {
         setFilteredProducts(products.filter((product) => product.data.offerType == offerType))
       } else if (offerType == 'all') {
-        console.log(products[0].data.categoryName)
-        // console.log(products.filter((product) => product.data.categoryName == categoryName))
         setFilteredProducts(products.filter((product) => product.data.categoryName == categoryName))
       } else {
-        console.log('first')
         setFilteredProducts(
           products.filter((product) => product.data.categoryName == categoryName && product.data.offerType == offerType)
         )
       }
     }
   }, [dispatch, categoryName, offerType])
-  console.log(filteredProducts)
 
-  // console.log(offerType)
-
-  /*  if (products) {
-    if (categoryName == 'all' && offerType == 'all') {
-      setFilteredProducts(products)
-    } else if (categoryName == 'all') {
-      setFilteredProducts(products.filter((product) => product.offerType == offerType))
-    } else if (offerType == 'all') {
-      setFilteredProducts(products.filter((product) => product.categoryName == categoryName))
-    } else {
-      setFilteredProducts(
-        products.filter((product) => product.categoryName == categoryName && product.offerType == offerType)
-      )
-    }
-  } */
+  const resetFilters = () => {
+    setCategoryName('all')
+    setOfferType('all')
+  }
 
   if (isLoading) {
     return <Spinner />
@@ -90,7 +72,7 @@ const Products = () => {
             id='electronics'
             value='electronics'
           >
-            أدوات كهربائية
+            إلكترونيات
           </option>
           <option
             name='clothes'
@@ -141,6 +123,14 @@ const Products = () => {
             تبادل
           </option>
         </select>
+        <div className='filter-products-bar-btn'>
+          <button
+            className='main-btn'
+            onClick={resetFilters}
+          >
+            عرض الكل
+          </button>
+        </div>
       </div>
       <section className='products-section'>
         {categoryName == 'all' && offerType == 'all' ? (
@@ -166,28 +156,6 @@ const Products = () => {
         ) : (
           <p>No products to view</p>
         )}
-        {/* {filteredProducts && filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <ProductCard
-              product={product.data}
-              id={product.id}
-              key={product.id}
-            />
-          ))
-        ) : (
-          <p>No products to view</p>
-        )} */}
-        {/* {products && products.length > 0 ? (
-          products.map((product) => (
-            <ProductCard
-              product={product.data}
-              id={product.id}
-              key={product.id}
-            />
-          ))
-        ) : (
-          <p>No products to view</p>
-        )} */}
       </section>
     </>
   )

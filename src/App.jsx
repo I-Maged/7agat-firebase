@@ -10,6 +10,8 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Products from './pages/Products'
 import AddNewProduct from './pages/AddNewProduct'
+import Profile from './pages/Profile'
+import ProductPage from './pages/ProductPage'
 
 // Keep for first run to initialize firebase App
 import { db } from './firebase.config'
@@ -38,8 +40,16 @@ const App = () => {
               element={<AddNewProduct />}
             />
             <Route
-              path='/products/:categoryName/:offerType'
+              path='/products/allProducts'
               element={<Products />}
+            />
+            <Route
+              path='/user/:userId'
+              element={<Profile />}
+            />
+            <Route
+              path='/product/:productId'
+              element={<ProductPage />}
             />
           </Routes>
           <Footer />

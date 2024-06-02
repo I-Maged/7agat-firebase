@@ -56,7 +56,6 @@ const SignUp = () => {
     dispatch(signUp(signUpData))
       .unwrap()
       .then((user) => {
-        console.log(user)
         toast.success(`Welcome ${user.displayName}`)
         navigate('/')
       })

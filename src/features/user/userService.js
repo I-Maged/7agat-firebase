@@ -23,7 +23,6 @@ const signIn = async (signInData) => {
 
     signInToBrowser(JSON.stringify(userData))
 
-    // return response.user
     return userData
   }
 

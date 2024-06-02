@@ -1,15 +1,12 @@
-import { collection, getDocs, query, where, orderBy, limit, startAfter } from 'firebase/firestore'
-import { addDoc, serverTimestamp } from 'firebase/firestore'
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { collection, getDocs, query, orderBy, where, getDoc, doc } from 'firebase/firestore'
+import { addDoc } from 'firebase/firestore'
 
 import { db } from '../../firebase.config'
 
-import { v4 as uuidv4 } from 'uuid'
-
 const getAllProducts = async () => {
-  const accountsCol = collection(db, 'products')
+  const productsCol = collection(db, 'products')
 
-  const q = query(accountsCol, orderBy('timestamp', 'asc'))
+  const q = query(productsCol, orderBy('timestamp', 'desc'))
 
   const productsSnap = await getDocs(q)
 
@@ -25,53 +22,38 @@ const getAllProducts = async () => {
   return productsList
 }
 
-// Store image in firebase
-const storeImage = async (image) => {
-  return new Promise((resolve, reject) => {
-    const storage = getStorage()
-    const fileName = `${image.name}-${uuidv4()}`
-    console.log(fileName)
-    const storageRef = ref(storage, 'images/' + fileName)
-
-    const uploadTask = uploadBytesResumable(storageRef, image)
-
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        console.log('Upload is ' + progress + '% done')
-        switch (snapshot.state) {
-          case 'paused':
-            console.log('Upload is paused')
-            break
-          case 'running':
-            console.log('Upload is running')
-            break
-          default:
-            break
-        }
-      },
-      (error) => {
-        reject(error)
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log(downloadURL)
-          resolve(downloadURL)
-        })
-      }
-    )
-  })
+const addNewProductData = async (productData) => {
+  return await addDoc(collection(db, 'products'), productData)
 }
 
-const addNewProductData = async (productData) => {
-  console.log(productData)
-  return await addDoc(collection(db, 'products'), productData)
+const getUserProducts = async (userId) => {
+  const productsRef = collection(db, 'products')
+
+  const q = query(productsRef, where('userRef', '==', userId), orderBy('timestamp', 'desc'))
+
+  const querySnap = await getDocs(q)
+
+  let products = []
+
+  querySnap.forEach((doc) => {
+    return products.push({
+      id: doc.id,
+      data: doc.data(),
+    })
+  })
+
+  return products
+}
+
+const getProductById = async (productId) => {
+  const snap = await getDoc(doc(db, 'products', productId))
+  return snap.data()
 }
 
 const productService = {
   getAllProducts,
-  storeImage,
   addNewProductData,
+  getUserProducts,
+  getProductById,
 }
 export default productService

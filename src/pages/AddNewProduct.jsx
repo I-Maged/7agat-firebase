@@ -4,14 +4,11 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
 
-import { storeImage, addNewProductData } from '../features/product/productSlice'
+import { addNewProductData } from '../features/product/productSlice'
 
 import { serverTimestamp } from 'firebase/firestore'
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-
-// import { useEffect, useRef } from 'react'
-// import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const AddNewProduct = () => {
   const { user } = useSelector((state) => state.userAuth)
@@ -44,7 +41,6 @@ const AddNewProduct = () => {
 
   const handleNewProduct = async (e) => {
     e.preventDefault()
-    console.log(formData)
 
     if (!user || !user.uid) {
       toast.error('You must sign in first')
@@ -55,19 +51,10 @@ const AddNewProduct = () => {
       return toast.error('Max 6 images')
     }
 
-    /* for (const value in formData) {
-      if (formData[value].trim() === '') {
-        return toast.error(`${value} Can not be empty`)
-      }
-    } */
-
-    /*  */
-
     const storeImage = async (image) => {
       return new Promise((resolve, reject) => {
         const storage = getStorage()
         const fileName = `${user.uid}-${image.name}-${uuidv4()}`
-        console.log(fileName)
         const storageRef = ref(storage, 'images/' + fileName)
 
         const uploadTask = uploadBytesResumable(storageRef, image)
@@ -93,7 +80,6 @@ const AddNewProduct = () => {
           },
           () => {
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              console.log(downloadURL)
               resolve(downloadURL)
             })
           }
@@ -104,19 +90,6 @@ const AddNewProduct = () => {
     const imgUrls = await Promise.all([...images].map((image) => storeImage(image))).catch(() => {
       return toast.error('could not upload images')
     })
-
-    // const imgUrls = await Promise.all(
-    //   [...images].map((image) => {
-    //     const action = dispatch(storeImage(image))
-    //     return action[0].payload
-    //   })
-    // ).catch(() => {
-    //   return toast.error('could not upload images')
-    // })
-
-    console.log(imgUrls)
-
-    /*  */
 
     const productData = {
       productName,
@@ -134,24 +107,6 @@ const AddNewProduct = () => {
         navigate('/')
       })
       .catch(toast.error)
-
-    /*     const signInData = {
-      email,
-      password,
-    }
-
-    setFormData({
-      email: '',
-      password: '',
-    })
-
-    dispatch(signIn(signInData))
-      .unwrap()
-      .then((user) => {
-        toast.success(`Welcome - ${user.displayName}`)
-        navigate('/')
-      })
-      .catch(toast.error) */
   }
 
   return (
@@ -191,7 +146,7 @@ const AddNewProduct = () => {
               id='electronics'
               value='electronics'
             >
-              أدوات كهربائية
+              إلكترونيات
             </option>
             <option
               name='clothes'

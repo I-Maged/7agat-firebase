@@ -16,7 +16,9 @@ const ProductCard = ({ product, id }) => {
       ) : (
         <p className='product-card-text'>تبديل</p>
       )}
-      <button className='main-btn'>عرض المنتج</button>
+      <button className='main-btn'>
+        <Link to={`/product/${id}`}>عرض المنتج</Link>
+      </button>
     </div>
   )
 }

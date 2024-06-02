@@ -167,7 +167,7 @@ label {
   color: var(--border);
   text-transform: uppercase;
   order: -1;
-  transform: translateX(-5px) translateY(35px);
+  transform: translateX(-5px) translateY(28px);
   text-align: right;
   pointer-events: none;
   transition: all 0.3s ease-in;
@@ -303,13 +303,17 @@ input:not(:placeholder-shown) ~ label {
   aspect-ratio: 4/3;
   object-fit: contain;
 }
+.category-box:last-child {
+  margin-top: 6.5rem;
+}
 .category-box:last-child .category-box-img img {
   width: 200px;
-  height: 13.5rem;
+  height: 15rem;
 }
 .category-box-img p {
   font-size: 16px;
   text-align: center;
+  margin-bottom: 1rem;
 }
 
 /* ******************* REGISTER - LOGIN ************************* */
@@ -354,7 +358,7 @@ input:not(:placeholder-shown) ~ label {
   margin: 1rem 0;
 }
 
-/* ******************** */
+/* *******************  ADD NEW PRODUCT PAGE *********************** */
 
 .products-section {
   width: 100vw;
@@ -373,7 +377,7 @@ input:not(:placeholder-shown) ~ label {
   align-items: center;
   gap: 1.5rem;
   width: 30rem;
-  height: 40rem;
+  height: 35rem;
   border-radius: 5px;
   padding: 3px;
   box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.4);
@@ -385,7 +389,7 @@ input:not(:placeholder-shown) ~ label {
   margin-top: 0;
   width: 100%;
   height: 200px;
-  object-fit: cover;
+  object-fit: fill;
 }
 .product-card-text {
   font-size: 14px;
@@ -400,7 +404,88 @@ select {
   margin-bottom: 1rem;
   height: 4rem;
 }
+
+/* *******************  PRODUCTS PAGE *********************** */
+.filter-products-bar {
+  width: 100vw;
+  margin-top: 4rem;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  background-color: var(--background-second);
+}
+.filter-products-bar select {
+  width: 15rem;
+}
+.filter-products-bar .main-btn {
+  width: 15rem;
+  margin-bottom: 1rem;
+}
+
 /* *****************RESPONSIVE ************************ */
+.swiper-container {
+  min-height: 225px;
+  height: 23vw;
+  width: 35rem;
+}
+.swiper {
+  min-height: 225px;
+  height: 23vw;
+  width: 35rem;
+}
+.swiper-wrapper {
+  width: 35rem;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #ffffff !important;
+}
+
+.swiperSlideDiv {
+  width: 35rem;
+  height: 35rem;
+}
+
+/* .swiperSlideImg {
+  width: 100%;
+  object-fit: cover;
+  object-fit: contain;
+} */
+
+.swiperSlideText {
+  color: #ffffff;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  font-weight: 600;
+  max-width: 90%;
+  font-size: 1.25rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0.5rem;
+}
+
+/*  */
+
+.product-page-container {
+  gap: 15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.product-page-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: center;
+}
+.product-info-text {
+  text-align: center;
+  font-size: 2rem;
+}
+/*  */
 
 @media only screen and (max-width: 900px) {
   .header-hero {
