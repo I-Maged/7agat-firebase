@@ -10,9 +10,26 @@ const initialState = {
 // Get all products
 export const getAllProducts = createAsyncThunk('products/getAll', async (_, thunkAPI) => {
   try {
-    // const token = thunkAPI.getState().auth.user.token
-    // return await ticketService.getTickets(token)
     return await productService.getAllProducts()
+  } catch (error) {
+    return thunkAPI.rejectWithValue(extractErrorMessage(error))
+  }
+})
+
+export const storeImage = createAsyncThunk('products/storeImage', async (image, thunkAPI) => {
+  try {
+    // return await productService.storeImage(image)
+    const img = await productService.storeImage(image)
+    console.log(img)
+    return img
+  } catch (error) {
+    return thunkAPI.rejectWithValue(extractErrorMessage(error))
+  }
+})
+
+export const addNewProductData = createAsyncThunk('products/addNewProductData', async (productData, thunkAPI) => {
+  try {
+    return await productService.addNewProductData(productData)
   } catch (error) {
     return thunkAPI.rejectWithValue(extractErrorMessage(error))
   }
@@ -23,14 +40,6 @@ export const productSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      /* .addCase(getTickets.pending, (state) => {
-        // NOTE: clear single ticket on tickets page, this replaces need for
-        // loading state on individual ticket
-        state.ticket = null
-      })
-      .addCase(getTickets.fulfilled, (state, action) => {
-        state.tickets = action.payload
-      }) */
       .addCase(getAllProducts.pending, (state) => {
         state.isLoading = true
       })
@@ -39,6 +48,24 @@ export const productSlice = createSlice({
         state.isLoading = false
       })
       .addCase(getAllProducts.rejected, (state) => {
+        state.isLoading = false
+      })
+      .addCase(storeImage.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(storeImage.fulfilled, (state) => {
+        state.isLoading = false
+      })
+      .addCase(storeImage.rejected, (state) => {
+        state.isLoading = false
+      })
+      .addCase(addNewProductData.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(addNewProductData.fulfilled, (state) => {
+        state.isLoading = false
+      })
+      .addCase(addNewProductData.rejected, (state) => {
         state.isLoading = false
       })
   },

@@ -9,6 +9,7 @@ import Homepage from './pages/Homepage'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Products from './pages/Products'
+import AddNewProduct from './pages/AddNewProduct'
 
 // Keep for first run to initialize firebase App
 import { db } from './firebase.config'
@@ -33,7 +34,11 @@ const App = () => {
               element={<SignUp />}
             />
             <Route
-              path='/products'
+              path='/addNewProduct'
+              element={<AddNewProduct />}
+            />
+            <Route
+              path='/products/:categoryName/:offerType'
               element={<Products />}
             />
           </Routes>

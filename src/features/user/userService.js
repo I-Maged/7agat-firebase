@@ -50,9 +50,7 @@ const signUp = async (signUpData) => {
 
   signInToBrowser(JSON.stringify(signUpDataCopy))
 
-  console.log(signUpData)
   return signUpData
-  // signIn(signUpData)
 }
 
 const userService = {

@@ -11,13 +11,6 @@ const initialState = {
 
 export const signIn = createAsyncThunk('user/signIn', async (signInData, thunkAPI) => {
   try {
-    /* const userCredential = await userService.signIn(signInData)
-    const userData = {
-      uid: userCredential.uid,
-      displayName: userCredential.displayName,
-      email: userCredential.email,
-    }
-    return userData */
     return await userService.signIn(signInData)
   } catch (error) {
     return thunkAPI.rejectWithValue(extractErrorMessage(error))
@@ -31,31 +24,17 @@ export const signOut = createAction('user/signOut', () => {
 
 export const signUp = createAsyncThunk('auth/signUp', async (signUpData, thunkAPI) => {
   try {
-    // return await userService.signUp(signUpData)
     const newUser = await userService.signUp(signUpData)
-    console.log(newUser)
     return await userService.signIn(newUser)
   } catch (error) {
     return thunkAPI.rejectWithValue(extractErrorMessage(error))
   }
 })
 
-/* export const signOut = createAsyncThunk('user/signOut', async () => {
-  try {
-    return await userService.signIn(signInData)
-  } catch (error) {
-    return thunkAPI.rejectWithValue(extractErrorMessage(error))
-  }
-}) */
-
 export const userAuthSlice = createSlice({
   name: 'userAuth',
   initialState,
-  reducers: {
-    /* signOut: (state) => {
-      state.user = null
-    }, */
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(signIn.pending, (state) => {

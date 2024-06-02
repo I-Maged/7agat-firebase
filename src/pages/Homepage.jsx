@@ -121,7 +121,9 @@ const Homepage = () => {
               alt='vehicles'
             />
           </div>
-          <button className='main-btn'>مركبات</button>
+          <button className='main-btn'>
+            <Link to='/products/electronics/all'>مركبات</Link>
+          </button>
         </div>
 
         <div className='category-box'>
@@ -133,7 +135,7 @@ const Homepage = () => {
             />
           </div>
           <button className='main-btn'>
-            <Link to='/products'>عرض الكل</Link>
+            <Link to='/products/all/all'>عرض الكل</Link>
           </button>
         </div>
       </section>

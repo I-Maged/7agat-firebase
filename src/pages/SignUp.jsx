@@ -53,15 +53,6 @@ const SignUp = () => {
       password2: '',
     })
 
-    // dispatch(signUp(signUpData))
-    //   .unwrap()
-    //   .then((user) => {
-    //     console.log(user)
-    //     toast.success(`Welcome - ${user.displayName}`)
-    //     navigate('/')
-    //   })
-    //   .catch(toast.error)
-    //
     dispatch(signUp(signUpData))
       .unwrap()
       .then((user) => {
