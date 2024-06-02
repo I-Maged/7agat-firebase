@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
+
 import { getProductById } from '../features/product/productSlice'
 import Spinner from '../components/Spinner'
 import { toast } from 'react-toastify'
@@ -15,6 +16,7 @@ import { Pagination, Navigation } from 'swiper/modules'
 
 const ProductPage = () => {
   const { product } = useSelector((state) => state.products)
+  const { user } = useSelector((state) => state.userAuth)
   const { isLoading } = useSelector((state) => state.products)
 
   const dispatch = useDispatch()
@@ -25,11 +27,9 @@ const ProductPage = () => {
     dispatch(getProductById(productId)).unwrap().catch(toast.error())
   }, [dispatch, productId])
 
-
   if (isLoading) {
     return <Spinner />
   }
-
 
   return (
     <>
@@ -73,6 +73,19 @@ const ProductPage = () => {
                 <p className='product-info-text'>تبرع</p>
               ) : (
                 <p className='product-info-text'>أخرى</p>
+              )}
+              {!user ? (
+                <button className='main-btn'>
+                  <Link to='/signIn'>تسجيل الدخول</Link>
+                </button>
+              ) : user.uid == product.userRef ? (
+                <button className='main-btn'>
+                  <Link to='/products/allProducts'>عرض الكل</Link>
+                </button>
+              ) : (
+                <button className='main-btn'>
+                  <Link to='/products/allProducts'>تقديم طلب</Link>
+                </button>
               )}
             </div>
           </div>
