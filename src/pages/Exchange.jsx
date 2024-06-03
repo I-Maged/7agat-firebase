@@ -20,24 +20,23 @@ const Exchange = () => {
   const dispatch = useDispatch()
   const { productId, userId } = useParams()
 
+  const offerCheckData = {
+    productId,
+    userId,
+  }
+
   useEffect(() => {
     dispatch(getProductsToExchange(userId)).unwrap().catch(toast.error())
+    dispatch(offerCheck(offerCheckData)).unwrap().catch(toast.error())
   }, [dispatch, userId])
 
   const handleExchange = (userproduct) => {
-    const offerCheckData = {
-      productId,
-      userId,
-    }
-
-    useEffect(() => {
-      dispatch(offerCheck(offerCheckData)).unwrap().catch(toast.error())
-    }, [dispatch, productId, userId])
-
-    if (!product || !userproduct || !user) {
+    if (!productId || !userId) {
       toast.error('Could not add offer')
       navigate('/')
     }
+
+
     if (checkOffer.length > 0) {
       toast.error('لقد قدمت طلب لهذا المنتج من قبل')
       return navigate('/')
