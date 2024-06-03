@@ -32,6 +32,7 @@ const ProductPage = () => {
 
   const handleDonation = () => {
     if (!user) {
+      toast.error('You must sign in first')
       return navigate('/')
     }
 
@@ -40,7 +41,6 @@ const ProductPage = () => {
       userId: user.uid,
     }
     useEffect(() => {
-      dispatch(getProductById(productId)).unwrap().catch(toast.error())
       dispatch(offerCheck(offerCheckData)).unwrap().catch(toast.error())
     }, [dispatch, productId, user.uid])
 
@@ -48,6 +48,7 @@ const ProductPage = () => {
       toast.error('لقد قدمت طلب لهذا المنتج من قبل')
       return navigate('/')
     }
+
     if (message.trim().length < 6) {
       return toast.error('message is too short')
     }
