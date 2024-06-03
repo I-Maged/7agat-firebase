@@ -153,7 +153,8 @@ body::-webkit-scrollbar-thumb {
   padding: 1rem 0;
 }
 
-input {
+input,
+textarea {
   padding: 5px 10px;
   font-size: 16px;
   outline: none;
@@ -173,12 +174,15 @@ label {
   transition: all 0.3s ease-in;
 }
 
-input:focus {
+input:focus,
+textarea:focus {
   outline: 2px solid var(--font-main);
 }
 
 input:focus ~ label,
-input:not(:placeholder-shown) ~ label {
+input:not(:placeholder-shown) ~ label,
+textarea:focus ~ label,
+textarea:not(:placeholder-shown) ~ label {
   transform: translateX(-5px) translateY(-8px);
   color: var(--font-main);
 }
@@ -376,7 +380,7 @@ input:not(:placeholder-shown) ~ label {
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
-  width: 30rem;
+  width: 25rem;
   height: 35rem;
   border-radius: 5px;
   padding: 3px;
@@ -389,7 +393,7 @@ input:not(:placeholder-shown) ~ label {
   margin-top: 0;
   width: 100%;
   height: 200px;
-  object-fit: fill;
+  object-fit: contain;
 }
 .product-card-text {
   font-size: 14px;
@@ -485,7 +489,61 @@ select {
   text-align: center;
   font-size: 2rem;
 }
-/*  */
+
+.product-card .input-field textarea {
+  margin: 0;
+  height: 10rem;
+}
+.offer-card {
+  height: 50rem;
+}
+.offers-container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.offers-container:nth-child(even) {
+  background-color: var(--background-second);
+}
+.exchange-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  padding: 5rem;
+}
+.exchange-container .product-card {
+  background-color: var(--background-main);
+}
+.offer-title {
+  padding-top: 5rem;
+}
+.message-container {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 1rem;
+  padding-bottom: 5rem;
+}
+.donation-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  padding: 5rem 0;
+  gap: 5rem;
+}
+.donation-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* *****************RESPONSIVE ************************ */
 
 @media only screen and (max-width: 900px) {
   .header-hero {

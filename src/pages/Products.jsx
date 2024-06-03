@@ -1,11 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllProducts } from '../features/product/productSlice'
+import { getAllProducts, notMyProducts } from '../features/product/productSlice'
 
 import { useState, useEffect } from 'react'
 import ProductCard from '../components/ProductCard'
+import { toast } from 'react-toastify'
 import Spinner from '../components/Spinner'
 
 const Products = () => {
+  const { user } = useSelector((state) => state.userAuth)
+
   const { products } = useSelector((state) => state.products)
   const { isLoading } = useSelector((state) => state.products)
 
@@ -16,7 +19,11 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState([])
 
   useEffect(() => {
-    dispatch(getAllProducts())
+    if (user && user.uid) {
+      dispatch(notMyProducts(user.uid)).unwrap().catch(toast.error())
+    } else {
+      dispatch(getAllProducts()).unwrap().catch(toast.error())
+    }
     setFilteredProducts(products)
   }, [dispatch])
 

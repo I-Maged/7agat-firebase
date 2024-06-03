@@ -47,6 +47,12 @@ const AddNewProduct = () => {
       navigate('/')
     }
 
+    for (const value in formData) {
+      if (formData[value].trim() === '') {
+        return toast.error(`${value} Can not be empty`)
+      }
+    }
+
     if (images.length > 6) {
       return toast.error('Max 6 images')
     }
@@ -211,7 +217,7 @@ const AddNewProduct = () => {
           type='submit'
           className='main-btn'
         >
-          تسجيل الدخول
+          إضافة منتج
         </button>
       </form>
     </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { signOut } from '../features/user/userSlice'
 
@@ -7,7 +7,7 @@ import { IoMdMenu, IoMdClose } from 'react-icons/io'
 import { FiLogIn } from 'react-icons/fi'
 import { FaUserPlus } from 'react-icons/fa'
 import { TbLogout2 } from 'react-icons/tb'
-import { MdAddCircleOutline, MdProductionQuantityLimits } from 'react-icons/md'
+import { MdAddCircleOutline, MdProductionQuantityLimits, MdOutlineLocalOffer } from 'react-icons/md'
 import { GiClothes } from 'react-icons/gi'
 
 import '../assets/SideBar.css'
@@ -15,7 +15,14 @@ import '../assets/SideBar.css'
 const Header = () => {
   const { user } = useSelector((state) => state.userAuth)
   const navigate = useNavigate()
+  const location = useLocation()
   const dispatch = useDispatch()
+
+  const pathMatchRoute = (route) => {
+    if (route === location.pathname) {
+      return true
+    }
+  }
 
   const [navIsOpen, setNavIsOpen] = useState(false)
 
@@ -54,7 +61,7 @@ const Header = () => {
             >
               <Link to='/products/allProducts'>
                 <MdProductionQuantityLimits
-                  color='white'
+                  color={pathMatchRoute('/products/allProducts') ? '#934ca8' : '#ffffff'}
                   size={40}
                 />
               </Link>
@@ -68,7 +75,7 @@ const Header = () => {
                 >
                   <Link to='/addNewProduct'>
                     <MdAddCircleOutline
-                      color='white'
+                      color={pathMatchRoute('/addNewProduct') ? '#934ca8' : '#ffffff'}
                       size={40}
                     />
                   </Link>
@@ -78,9 +85,21 @@ const Header = () => {
                   className='nav__item'
                   onClick={() => setNavIsOpen(false)}
                 >
+                  <Link to={`/offers/${user.uid}`}>
+                    <MdOutlineLocalOffer
+                      color={pathMatchRoute(`/offers/${user.uid}`) ? '#934ca8' : '#ffffff'}
+                      size={40}
+                    />
+                  </Link>
+                  <span className='nav__item-text'>عروض</span>
+                </nav>
+                <nav
+                  className='nav__item'
+                  onClick={() => setNavIsOpen(false)}
+                >
                   <Link to={`/user/${user.uid}`}>
                     <GiClothes
-                      color='white'
+                      color={pathMatchRoute(`/user/${user.uid}`) ? '#934ca8' : '#ffffff'}
                       size={40}
                     />
                   </Link>
@@ -105,7 +124,7 @@ const Header = () => {
                 >
                   <Link to='/signIn'>
                     <FiLogIn
-                      color='white'
+                      color={pathMatchRoute('/signIn') ? '#934ca8' : '#ffffff'}
                       size={40}
                     />
                   </Link>
@@ -118,7 +137,7 @@ const Header = () => {
                 >
                   <Link to='/signUp'>
                     <FaUserPlus
-                      color='white'
+                      color={pathMatchRoute('/signUp') ? '#934ca8' : '#ffffff'}
                       size={40}
                     />
                   </Link>

@@ -47,7 +47,7 @@ const signUp = async (signUpData) => {
 
   delete signUpDataCopy.timestamp
 
-  signInToBrowser(JSON.stringify(signUpDataCopy))
+  // signInToBrowser(JSON.stringify(signUpDataCopy))
 
   return signUpData
 }

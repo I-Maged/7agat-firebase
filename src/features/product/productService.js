@@ -47,7 +47,53 @@ const getUserProducts = async (userId) => {
 
 const getProductById = async (productId) => {
   const snap = await getDoc(doc(db, 'products', productId))
-  return snap.data()
+  return {
+    id: snap.id,
+    data: snap.data(),
+  }
+}
+
+const notMyProducts = async (userId) => {
+  const productsRef = collection(db, 'products')
+
+  const q = query(productsRef, where('userRef', '!=', userId), orderBy('timestamp', 'desc'))
+
+  const querySnap = await getDocs(q)
+
+  let products = []
+
+  querySnap.forEach((doc) => {
+    return products.push({
+      id: doc.id,
+      data: doc.data(),
+    })
+  })
+
+  return products
+}
+
+const getProductsToExchange = async (userId) => {
+  const productsRef = collection(db, 'products')
+
+  const q = query(
+    productsRef,
+    where('userRef', '==', userId),
+    where('offerType', '==', 'exchange'),
+    orderBy('timestamp', 'desc')
+  )
+
+  const querySnap = await getDocs(q)
+
+  let products = []
+
+  querySnap.forEach((doc) => {
+    return products.push({
+      id: doc.id,
+      data: doc.data(),
+    })
+  })
+
+  return products
 }
 
 const productService = {
@@ -55,5 +101,7 @@ const productService = {
   addNewProductData,
   getUserProducts,
   getProductById,
+  notMyProducts,
+  getProductsToExchange,
 }
 export default productService

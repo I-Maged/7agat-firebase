@@ -5,7 +5,9 @@ import { extractErrorMessage } from '../utils'
 const initialState = {
   products: null,
   userProducts: null,
+  userProductsToExchange: null,
   product: null,
+  productID: null,
   isLoading: false,
 }
 
@@ -39,6 +41,20 @@ export const getProductById = createAsyncThunk('product/productById', async (pro
     return thunkAPI.rejectWithValue(extractErrorMessage(error))
   }
 })
+export const notMyProducts = createAsyncThunk('products/notMyProducts', async (userId, thunkAPI) => {
+  try {
+    return await productService.notMyProducts(userId)
+  } catch (error) {
+    return thunkAPI.rejectWithValue(extractErrorMessage(error))
+  }
+})
+export const getProductsToExchange = createAsyncThunk('products/exchangeProducts', async (userId, thunkAPI) => {
+  try {
+    return await productService.getProductsToExchange(userId)
+  } catch (error) {
+    return thunkAPI.rejectWithValue(extractErrorMessage(error))
+  }
+})
 
 export const productSlice = createSlice({
   name: 'product',
@@ -49,7 +65,10 @@ export const productSlice = createSlice({
         state.isLoading = true
       })
       .addCase(getAllProducts.fulfilled, (state, action) => {
+        state.userProductsToExchange = null
         state.products = action.payload
+        state.productID = null
+        state.product = null
         state.isLoading = false
       })
       .addCase(getAllProducts.rejected, (state) => {
@@ -78,10 +97,31 @@ export const productSlice = createSlice({
         state.isLoading = true
       })
       .addCase(getProductById.fulfilled, (state, action) => {
-        state.product = action.payload
+        state.productID = action.payload.id
+        state.product = action.payload.data
         state.isLoading = false
       })
       .addCase(getProductById.rejected, (state) => {
+        state.isLoading = false
+      })
+      .addCase(notMyProducts.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(notMyProducts.fulfilled, (state, action) => {
+        state.products = action.payload
+        state.isLoading = false
+      })
+      .addCase(notMyProducts.rejected, (state) => {
+        state.isLoading = false
+      })
+      .addCase(getProductsToExchange.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getProductsToExchange.fulfilled, (state, action) => {
+        state.userProductsToExchange = action.payload
+        state.isLoading = false
+      })
+      .addCase(getProductsToExchange.rejected, (state) => {
         state.isLoading = false
       })
   },
