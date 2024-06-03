@@ -26,17 +26,24 @@ const ProductPage = () => {
 
   const { productId } = useParams()
 
-  const offerCheckData = {
-    productId,
-    userId: user.uid,
-  }
-
   useEffect(() => {
     dispatch(getProductById(productId)).unwrap().catch(toast.error())
-    dispatch(offerCheck(offerCheckData)).unwrap().catch(toast.error())
-  }, [dispatch, productId, user.uid])
+  }, [dispatch, productId])
 
   const handleDonation = () => {
+    if (!user) {
+      return navigate('/')
+    }
+
+    const offerCheckData = {
+      productId,
+      userId: user.uid,
+    }
+    useEffect(() => {
+      dispatch(getProductById(productId)).unwrap().catch(toast.error())
+      dispatch(offerCheck(offerCheckData)).unwrap().catch(toast.error())
+    }, [dispatch, productId, user.uid])
+
     if (checkOffer.length > 0) {
       toast.error('لقد قدمت طلب لهذا المنتج من قبل')
       return navigate('/')
@@ -51,6 +58,7 @@ const ProductPage = () => {
       patronProductId: productId,
       patronProductImage: product.imgUrls[0],
       patronProductName: product.productName,
+      patronProductGategory: product.categoryName,
       recepientId: user.uid,
       recepientName: user.displayName,
       offerMessage: message,
