@@ -47,11 +47,15 @@ const AddNewProduct = () => {
       navigate('/')
     }
 
-    for (const value in formData) {
+    /*     for (const value in formData) {
       if (formData[value].trim() === '') {
         return toast.error(`${value} Can not be empty`)
       }
+    } */
+    if (productName.trim() === '' || categoryName.trim() === '' || offerType.trim() === '') {
+      return toast.error('Please enter all necessary values')
     }
+    // console.log(productName)
 
     if (images.length > 6) {
       return toast.error('Max 6 images')
