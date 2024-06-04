@@ -7,7 +7,6 @@ const initialState = {
   userProducts: null,
   userProductsToExchange: null,
   product: null,
-  productID: null,
   isLoading: false,
 }
 
@@ -67,7 +66,6 @@ export const productSlice = createSlice({
       .addCase(getAllProducts.fulfilled, (state, action) => {
         state.userProductsToExchange = null
         state.products = action.payload
-        state.productID = null
         state.product = null
         state.isLoading = false
       })
@@ -97,7 +95,6 @@ export const productSlice = createSlice({
         state.isLoading = true
       })
       .addCase(getProductById.fulfilled, (state, action) => {
-        state.productID = action.payload.id
         state.product = action.payload.data
         state.isLoading = false
       })

@@ -16,6 +16,8 @@ const AddNewProduct = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const [progressValue, setProgressValue] = useState(null)
+
   const [formData, setFormData] = useState({
     productName: '',
     categoryName: '',
@@ -47,15 +49,9 @@ const AddNewProduct = () => {
       navigate('/')
     }
 
-    /*     for (const value in formData) {
-      if (formData[value].trim() === '') {
-        return toast.error(`${value} Can not be empty`)
-      }
-    } */
     if (productName.trim() === '' || categoryName.trim() === '' || offerType.trim() === '') {
       return toast.error('Please enter all necessary values')
     }
-    // console.log(productName)
 
     if (images.length > 6) {
       return toast.error('Max 6 images')
@@ -74,6 +70,7 @@ const AddNewProduct = () => {
           (snapshot) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
             console.log('Upload is ' + progress + '% done')
+            setProgressValue(progress)
             switch (snapshot.state) {
               case 'paused':
                 console.log('Upload is paused')
@@ -86,10 +83,12 @@ const AddNewProduct = () => {
             }
           },
           (error) => {
-            reject(error)
+            setProgressValue(null)
+            reject(toast.error(error))
           },
           () => {
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              setProgressValue(null)
               resolve(downloadURL)
             })
           }
@@ -216,6 +215,13 @@ const AddNewProduct = () => {
             required
           />
           <label htmlFor='productName'>صور المنتج</label>
+        </div>
+        <div className={`progress-bar-container ${progressValue ? 'progress-bar--open' : ''}`}>
+          <label className='progress-bar-label'>Uploading {progressValue}%:</label>
+          <progress
+            className='progress-bar'
+            value={null}
+          />
         </div>
         <button
           type='submit'

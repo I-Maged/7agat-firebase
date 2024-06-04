@@ -26,23 +26,26 @@ const ProductPage = () => {
 
   const { productId } = useParams()
 
-  useEffect(() => {
-    dispatch(getProductById(productId)).unwrap().catch(toast.error())
-  }, [dispatch, productId])
-
-  const handleDonation = () => {
-    if (!user) {
-      toast.error('You must sign in first')
-      return navigate('/')
-    }
-
+  if (user) {
     const offerCheckData = {
       productId,
       userId: user.uid,
     }
+
     useEffect(() => {
       dispatch(offerCheck(offerCheckData)).unwrap().catch(toast.error())
-    }, [dispatch, productId, user.uid])
+    }, [dispatch])
+  }
+
+  useEffect(() => {
+    dispatch(getProductById(productId)).unwrap().catch(toast.error())
+  }, [dispatch, productId])
+
+  const handleDonation = async () => {
+    if (!user) {
+      toast.error('You must sign in first')
+      return navigate('/')
+    }
 
     if (checkOffer.length > 0) {
       toast.error('لقد قدمت طلب لهذا المنتج من قبل')

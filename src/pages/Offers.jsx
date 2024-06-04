@@ -16,8 +16,6 @@ const Offers = () => {
     dispatch(getUserOffers(userId)).unwrap().catch(toast.error())
   }, [dispatch])
 
-  console.log(offers)
-
   if (isLoading) {
     return <Spinner />
   }

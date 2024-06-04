@@ -59,7 +59,7 @@ const Products = () => {
           name='categoryName'
           id='categoryName'
           onChange={(e) => setCategoryName(e.target.value)}
-          defaultValue='all'
+          value={categoryName}
         >
           <option
             disabled
@@ -100,7 +100,7 @@ const Products = () => {
           name='offerType'
           id='offerType'
           onChange={(e) => setOfferType(e.target.value)}
-          defaultValue='all'
+          value={offerType}
         >
           <option
             disabled

@@ -30,8 +30,8 @@ const SignIn = () => {
     e.preventDefault()
 
     for (const value in formData) {
-      if (formData[value].trim() === '') {
-        return toast.error(`${value} Can not be empty`)
+      if (formData[value].trim().length < 6) {
+        return toast.error(`${value} Can not be less than 6 characters`)
       }
     }
 
